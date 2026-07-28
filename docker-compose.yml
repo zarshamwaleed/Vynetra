@@ -1,0 +1,115 @@
+
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    container_name: vynetra-backend
+    ports:
+      - ":8000"
+    environment:
+      - ENVIRONMENT=
+      - DATABASE_URL=
+      - REDIS_URL=
+      - GROQ_API_KEY=
+      - GOOGLE_API_KEY=
+      - OLLAMA_BASE_URL=
+      - OPENROUTER_API_KEY=
+      - LOG_LEVEL=
+      - SECRET_KEY=
+      - STORAGE_PATH=/app/generated
+      - CORS_ORIGINS=
+    volumes:
+      - ./backend:/app
+      - ./generated:/app/generated
+      - ./assets:/app/assets
+      - /app/__pycache__
+      - /app/.pytest_cache
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - vynetra-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    container_name: vynetra-frontend
+    ports:
+      - ":3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+    networks:
+      - vynetra-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: vynetra-postgres
+    environment:
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - vynetra-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U  -d "]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: vynetra-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - vynetra-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: vynetra-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_ORIGINS=*
+    networks:
+      - vynetra-network
+
+networks:
+  vynetra-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  ollama_data:
+    driver: local

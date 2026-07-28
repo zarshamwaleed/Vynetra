@@ -1,0 +1,70 @@
+﻿{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "./generated",
+        "./assets"
+      ],
+      "env": {},
+      "enabled": true,
+      "type": "external",
+      "capabilities": ["read", "write", "create", "delete", "list"]
+    },
+    "browser": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcpbrowser@latest"
+      ],
+      "env": {},
+      "enabled": true,
+      "type": "external",
+      "capabilities": ["search", "navigate", "scrape", "screenshot"]
+    },
+    "manim": {
+      "command": "python",
+      "args": [
+        "./manim-mcp-server/src/manim_server.py"
+      ],
+      "env": {
+        "MANIM_EXECUTABLE": "manim"
+      },
+      "enabled": true,
+      "type": "external",
+      "capabilities": ["generate", "render", "animate"]
+    },
+    "presentation": {
+      "command": "python",
+      "args": [
+        "./app/mcp/servers/presentation_server.py"
+      ],
+      "env": {},
+      "enabled": true,
+      "type": "custom",
+      "capabilities": ["create_outline", "create_slide", "export_ppt"]
+    },
+    "diagram": {
+      "command": "python",
+      "args": [
+        "./app/mcp/servers/diagram_server.py"
+      ],
+      "env": {},
+      "enabled": true,
+      "type": "custom",
+      "capabilities": ["generate_mermaid", "generate_graphviz"]
+    },
+    "speaker_notes": {
+      "command": "python",
+      "args": [
+        "./app/mcp/servers/speaker_notes_server.py"
+      ],
+      "env": {},
+      "enabled": true,
+      "type": "custom",
+      "capabilities": ["generate_notes"]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "llm_provider": "groq",
+  "llm_model": {
+    "groq": "llama-3.3-70b-versatile",
+    "gemini": "models/gemini-2.5-flash",
+    "openrouter": "qwen/qwen-2.5-32b:free",
+    "ollama": "tinyllama"
+  },
+  "theme": "light",
+  "slide_count": 15,
+  "audience": "general",
+  "tone": "educational",
+  "animation_quality": "medium",
+  "auto_save": true,
+  "show_timeline": true,
+  "enable_animations": true,
+  "enable_diagrams": true
+}
