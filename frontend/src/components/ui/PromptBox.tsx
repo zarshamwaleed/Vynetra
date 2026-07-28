@@ -25,30 +25,32 @@ export function PromptBox({
 
   return (
     <form onSubmit={handleSubmit} className="w-full">
-      <div className="relative">
+      <div className="relative w-full">
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder={placeholder}
-          className={
-            w-full h-32 bg-white/5 border border-white/20 rounded-xl p-4 
+          className="
+            w-full h-32 bg-white/5 border border-white/20 rounded-xl p-4 pr-36
             text-white placeholder-gray-400 
             focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent
             resize-none transition-all
-            
-          }
+            box-border
+          "
           disabled={isLoading}
         />
         <button
           type="submit"
           disabled={isLoading || !prompt.trim()}
-          className={
+          className="
             absolute bottom-4 right-4
             bg-gradient-to-r from-purple-500 to-pink-500 
             text-white px-6 py-2 rounded-lg font-medium
             transition-all flex items-center gap-2
-            
-          }
+            disabled:opacity-50 disabled:cursor-not-allowed
+            whitespace-nowrap
+            z-10
+          "
         >
           {isLoading ? (
             'Generating...'

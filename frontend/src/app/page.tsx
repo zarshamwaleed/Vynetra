@@ -166,8 +166,17 @@ export default function HomePage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a, #312e81, #0f172a)', padding: '20px' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div style={{ 
+      minHeight: '100vh', 
+      background: 'linear-gradient(135deg, #0f172a, #312e81, #0f172a)', 
+      padding: '20px',
+      overflowX: 'hidden' // Prevent horizontal overflow
+    }}>
+      <div style={{ 
+        maxWidth: '1200px', 
+        margin: '0 auto',
+        padding: '0 4px' // Add small padding to prevent edge overflow
+      }}>
         <div style={{ textAlign: 'center', padding: '30px 0 15px' }}>
           <h1 style={{ fontSize: '48px', fontWeight: 'bold', color: 'white' }}>
             <span style={{ background: 'linear-gradient(to right, #a78bfa, #f472b6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
@@ -177,7 +186,15 @@ export default function HomePage() {
           <p style={{ color: '#9ca3af', fontSize: '18px', marginTop: '8px' }}>One Prompt. A Complete Presentation.</p>
         </div>
 
-        <div style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', borderRadius: '16px', padding: '24px', border: '1px solid rgba(255,255,255,0.1)', marginBottom: '24px' }}>
+        <div style={{ 
+          background: 'rgba(255,255,255,0.08)', 
+          backdropFilter: 'blur(12px)', 
+          borderRadius: '16px', 
+          padding: '24px', 
+          border: '1px solid rgba(255,255,255,0.1)', 
+          marginBottom: '24px',
+          overflow: 'hidden' // Ensure container doesn't overflow
+        }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <textarea
               value={prompt}
@@ -194,7 +211,9 @@ export default function HomePage() {
                 fontSize: '16px',
                 resize: 'vertical',
                 outline: 'none',
-                fontFamily: 'inherit'
+                fontFamily: 'inherit',
+                boxSizing: 'border-box', // Critical: ensures padding is included in width
+                maxWidth: '100%' // Prevent overflow
               }}
               disabled={isLoading}
             />
@@ -213,7 +232,8 @@ export default function HomePage() {
                   fontSize: '16px',
                   cursor: isLoading || !prompt.trim() ? 'not-allowed' : 'pointer',
                   opacity: isLoading || !prompt.trim() ? 0.6 : 1,
-                  transition: 'all 0.2s'
+                  transition: 'all 0.2s',
+                  boxSizing: 'border-box'
                 }}
               >
                 {isLoading ? 'Generating...' : 'Generate Presentation'}
