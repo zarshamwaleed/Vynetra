@@ -271,13 +271,12 @@ export default function HomePage() {
 
             {steps.length > 0 && (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '8px', marginTop: '16px' }}>
-                {['planning', 'research', 'slides', 'diagrams', 'animation', 'ppt', 'pdf', 'complete'].map((key) => {
+                {['planning', 'research', 'slides', 'diagrams', 'ppt', 'pdf', 'complete'].map((key) => {
                   const labels = {
                     planning: 'Planning',
                     research: 'Research',
                     slides: 'Content',
                     diagrams: 'Diagrams',
-                    animation: 'Animation',
                     ppt: 'PowerPoint',
                     pdf: 'PDF Export',
                     complete: 'Complete!',
@@ -288,7 +287,6 @@ export default function HomePage() {
                     research: { bg: 'rgba(59,130,246,0.2)', border: '#3b82f6' },
                     slides: { bg: 'rgba(16,185,129,0.2)', border: '#10b981' },
                     diagrams: { bg: 'rgba(245,158,11,0.2)', border: '#f59e0b' },
-                    animation: { bg: 'rgba(236,72,153,0.2)', border: '#ec4899' },
                     ppt: { bg: 'rgba(168,85,247,0.2)', border: '#a855f7' },
                     pdf: { bg: 'rgba(239,68,68,0.2)', border: '#ef4444' },
                     complete: { bg: 'rgba(34,197,94,0.2)', border: '#22c55e' },
@@ -333,7 +331,7 @@ export default function HomePage() {
                 <button onClick={() => handleDownload('notes')} style={{ padding: '8px 16px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '500', fontSize: '14px' }}>
                   Speaker Notes
                 </button>
-                {animation && (
+                {animation?.download_url && (
                   <button onClick={() => handleDownload('animation')} style={{ padding: '8px 16px', background: '#10b981', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '500', fontSize: '14px' }}>
                     Download Animation
                   </button>
@@ -344,12 +342,36 @@ export default function HomePage() {
               </div>
             </div>
 
+            {animation?.preview_url && (
+              <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '16px', padding: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <h3 style={{ color: 'white', fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Preview Animation</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(260px, 1fr)', gap: '16px', alignItems: 'start' }}>
+                  <video
+                    controls
+                    src={animation.preview_url}
+                    style={{ width: '100%', borderRadius: '12px', background: '#020617', border: '1px solid rgba(255,255,255,0.08)' }}
+                  />
+                  <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '14px', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div style={{ color: 'white', fontWeight: '600', fontSize: '15px', marginBottom: '6px' }}>{animation.title}</div>
+                    <div style={{ color: '#9ca3af', fontSize: '13px', lineHeight: 1.6 }}>{animation.description}</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {diagrams.length > 0 && (
               <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '16px', padding: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <h3 style={{ color: 'white', fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>📊 Diagrams</h3>
+                <h3 style={{ color: 'white', fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Useful Diagrams</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px' }}>
                   {diagrams.map((diagram, index) => (
                     <div key={index} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '8px', padding: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
+                      {diagram.preview_url && (
+                        <img
+                          src={diagram.preview_url}
+                          alt={diagram.title}
+                          style={{ width: '100%', height: '140px', objectFit: 'contain', borderRadius: '8px', background: 'rgba(15,23,42,0.8)', marginBottom: '10px' }}
+                        />
+                      )}
                       <div style={{ color: 'white', fontWeight: '500', fontSize: '14px', marginBottom: '4px' }}>{diagram.title}</div>
                       <div style={{ color: '#9ca3af', fontSize: '12px' }}>{diagram.description}</div>
                     </div>

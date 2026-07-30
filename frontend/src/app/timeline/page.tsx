@@ -136,13 +136,12 @@ export default function TimelinePage() {
     )
   }
 
-  const steps = ['planning', 'research', 'slides', 'diagrams', 'animation', 'ppt', 'pdf', 'complete']
+  const steps = ['planning', 'research', 'slides', 'diagrams', 'ppt', 'pdf', 'complete']
   const stepLabels: Record<string, string> = {
     planning: 'Planning',
     research: 'Research',
     slides: 'Content Generation',
     diagrams: 'Diagram Generation',
-    animation: 'Animation Generation',
     ppt: 'PowerPoint Building',
     pdf: 'PDF Export',
     complete: 'Complete!',
